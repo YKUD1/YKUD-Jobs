@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="YKUD recrute pour ses ARG Minecraft : développeur, rédacteur, builder, scénariste, 3D maker, creative strategist.">
+<meta property="og:title" content="YKUD Recrutement">
+<meta property="og:description" content="Le plus grand jeu au monde mérite les plus grandes histoires.">
+<meta name="theme-color" content="#050505">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%95%AF%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>YKUD Recrutement</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=VT323&display=swap">
+<style>
+  :root {
+    --bg: #050505;
+    --text: #d8d4cb;
+    --muted: #66625b;
+    --line: #1c1b19;
+    --red: #c8161d;
+    --ghost: rgba(0, 190, 255, .35);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--bg); }
+  body {
+    margin: 0; min-height: 100vh;
+    background: var(--bg); color: var(--text);
+    font-family: "VT323", "Courier New", monospace;
+    font-size: 22px; line-height: 1.2;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* Grain + lignes VHS + vignette */
+  body::before {
+    content: ""; position: fixed; inset: -50%; z-index: 10; pointer-events: none; opacity: .08;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 11; pointer-events: none;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,.28) 0 1px, transparent 1px 3px),
+      radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,.75) 100%);
+  }
+
+  .wrap { position: relative; max-width: 1040px; margin-inline: auto; padding-inline: 20px; }
+
+  header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding-block: 28px; }
+  .osd { display: flex; align-items: center; gap: 24px; }
+  .sound {
+    font: inherit; letter-spacing: .06em; cursor: pointer;
+    background: none; border: 0; padding: 0; color: var(--muted);
+  }
+  .sound[aria-pressed="true"] { color: var(--text); }
+  .sound:hover, .sound:focus-visible { color: var(--red); outline: none; }
+  header img { width: 104px; height: auto; display: block; }
+  .rec { display: flex; align-items: center; gap: 10px; color: var(--text); letter-spacing: .06em; font-variant-numeric: tabular-nums; }
+  .rec i { width: 12px; height: 12px; border-radius: 50%; background: var(--red); display: block; }
+
+  h1 {
+    margin: 0; padding-block: 64px 80px;
+    font-weight: 400; text-transform: uppercase;
+    font-size: clamp(44px, 7.4vw, 96px); line-height: .9; letter-spacing: .01em;
+    max-width: 18ch; text-wrap: balance;
+  }
+  h1 em { font-style: normal; color: var(--red); }
+  h1.zap-on { text-shadow: var(--z, 0px) 0 rgba(200, 22, 29, .75), calc(-1 * var(--z, 0px)) 0 var(--ghost); }
+
+  .label { color: var(--red); letter-spacing: .12em; margin: 0 0 8px; }
+
+  .jobs { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .jobs li { border-bottom: 1px solid var(--line); }
+  .jobs summary {
+    list-style: none; cursor: pointer;
+    display: flex; align-items: baseline; justify-content: space-between; gap: 16px;
+    padding-block: 14px;
+  }
+  .jobs summary::-webkit-details-marker { display: none; }
+  .jobs .name { font-size: clamp(34px, 5vw, 58px); line-height: 1; text-transform: uppercase; min-width: 0; }
+  .jobs .toggle { flex: none; color: var(--red); letter-spacing: .1em; }
+  .jobs .toggle::before { content: "[+]"; }
+  .jobs details[open] .toggle::before { content: "[−]"; }
+  .jobs summary:hover .name, .jobs summary:focus-visible .name,
+  .jobs details[open] .name { text-shadow: 3px 0 var(--red), -3px 0 var(--ghost); }
+  .jobs summary:focus-visible { outline: 1px dashed var(--muted); outline-offset: 4px; }
+
+  .jobs .body { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 40px; padding-block: 2px 22px; }
+  .jobs .desc { margin: 0; max-width: 46ch; font-size: 24px; line-height: 1.15; color: var(--text); opacity: .8; }
+  .jobs .go { flex: none; color: var(--red); letter-spacing: .1em; border: 1px solid var(--red); padding: 4px 14px; }
+  .jobs .go:hover, .jobs .go:focus-visible { background: var(--red); color: var(--bg); outline: none; }
+
+  .jobs .closed .name { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 3px; }
+  .jobs .closed .go { color: var(--muted); border-color: var(--muted); }
+
+  footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-block: 72px 32px; color: var(--muted); letter-spacing: .06em; }
+  footer a:hover, footer a:focus-visible { color: var(--text); outline: none; }
+
+
+  /* Écran d'entrée */
+  body.locked { overflow: hidden; }
+  .splash {
+    position: fixed; inset: 0; z-index: 5; width: 100%; margin: 0; border: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+    padding: 20px; background: var(--bg); color: var(--text); font: inherit; cursor: pointer;
+  }
+  .splash img { width: 150px; height: auto; display: block; }
+  .splash .press { font-size: clamp(26px, 3.6vw, 40px); letter-spacing: .14em; }
+  .splash .press::after { content: "_"; }
+  .splash:focus-visible { outline: none; }
+  .splash:hover .press, .splash:focus-visible .press { color: var(--red); }
+  .splash.off { pointer-events: none; }
+  .splash.busy { cursor: progress; }
+  .splash .loading { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .splash .lt { font-size: clamp(26px, 3.6vw, 40px); letter-spacing: .14em; white-space: pre; }
+  .splash .lt.done { color: var(--red); }
+  .splash .barrow { display: flex; align-items: center; gap: 14px; }
+  .splash .bar { display: block; width: min(300px, 62vw); height: 20px; padding: 3px; border: 2px solid var(--text); }
+  .splash .bar i {
+    display: block; height: 100%; width: 0;
+    background: repeating-linear-gradient(90deg, var(--text) 0 9px, transparent 9px 12px);
+  }
+  .splash .pct { min-width: 4ch; text-align: right; font-variant-numeric: tabular-nums; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    body::before { animation: grain .5s steps(4) infinite; }
+    .rec i { animation: blink 1.2s steps(1) infinite; }
+    .jobs details[open] .body { animation: drop .35s ease-out; }
+    .splash .press::after { animation: blink 1s steps(1) infinite; }
+    .splash.off { animation: splash-out 1.9s ease forwards; }
+    .splash.off > * { animation: content-out .6s ease forwards; }
+    body.entering .wrap { animation: focus-in 1.9s ease; }
+  }
+  @keyframes content-out { to { opacity: 0; } }
+  @keyframes splash-out { 0%, 45% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes focus-in { 0%, 45% { filter: blur(8px); } 100% { filter: blur(0); } }
+  @keyframes drop {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes grain {
+    0% { transform: translate(0, 0); } 25% { transform: translate(-3%, 2%); }
+    50% { transform: translate(2%, -3%); } 75% { transform: translate(-2%, -1%); } 100% { transform: translate(0, 0); }
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+</style>
+<style>
+  /* Règles de base que Claude ajoutait à la publication */
+  [hidden] { display: none !important; }
+  img { max-width: 100%; }
+  body { margin: 0; }
+</style>
+</head>
+<body>
+<button class="splash" id="splash" type="button" aria-label="Entrer sur le site">
+  <img src="ykud-logo.png" alt="">
+  <span class="press" id="press">CLIQUE POUR ENTRER</span>
+  <span class="loading" id="loading" role="status" hidden>
+    <span class="lt" id="lt">CONNECTING</span>
+    <span class="barrow"><span class="bar"><i id="fill"></i></span><span class="pct" id="pct">0%</span></span>
+  </span>
+</button>
+
+<div class="wrap">
+  <header>
+    <img src="ykud-logo.png" alt="YKUD.">
+    <div class="osd">
+      <button class="sound" id="sound" type="button" aria-pressed="false">SON : OFF</button>
+      <div class="rec" aria-hidden="true"><i></i><span>REC</span><span id="clock">00:00:00</span></div>
+    </div>
+  </header>
+  <audio id="music" src="musique.mp3" loop preload="auto"></audio>
+  <audio id="sfx" src="sfx-scan.mp3" preload="auto"></audio>
+  <audio id="click" src="sfx-click.mp3" preload="auto"></audio>
+  <audio id="open" src="sfx-open.mp3" preload="auto"></audio>
+  <audio id="zap" src="sfx-zap.mp3" preload="auto"></audio>
+  <audio id="menu" src="sfx-menu.mp3" preload="auto"></audio>
+  <audio id="menu-close" src="sfx-menu-close.mp3" preload="auto"></audio>
+
+  <h1 id="title"></h1>
+
+  <p class="label">ON RECRUTE</p>
+  <ul class="jobs" id="jobs"></ul>
+
+  <footer>
+    <a id="yt" target="_blank" rel="noopener">YOUTUBE</a>
+    <a id="mail"></a>
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   CONTENU : tout se modifie ici.
+   Un mot entre *étoiles* s'affiche en rouge.
+   ============================================================ */
+const DATA = {
+  email: "ykudbusiness@gmail.com",
+  youtube: "https://www.youtube.com/@YKUDD",
+  titre: "Le plus grand jeu au monde mérite les plus grandes *histoires.*",
+
+  // open: false = poste pourvu (barré, sans bouton Postuler).
+  // form : lien du Google Form de candidature. Sans form, le bouton ouvre un mail.
+  jobs: [
+    { role: "Développeur Minecraft", open: true,
+      form: "https://docs.google.com/forms/d/e/1FAIpQLSffUZhhtsnwbJnhR7NWQH5PR4JJtz-wSGjcHyIGOvlpVyvZkw/viewform?usp=publish-editor",
+      desc: "Développe les mécaniques, événements et systèmes nécessaires au fonctionnement des maps Minecraft." },
+    { role: "Rédacteur", open: true,
+      form: "https://docs.google.com/forms/d/e/1FAIpQLSeh7LHDXmAbuMs3rq9Ot8iOcUdbFsJQKihKk3NIq3wOXu-Bww/viewform?usp=publish-editor",
+      desc: "Rédige les scripts des vidéos, notamment les voix off, transitions et explications." },
+    { role: "Builder", open: true,
+      form: "https://docs.google.com/forms/d/e/1FAIpQLScr-04JUQkcV9FhMB2qnWYmUej2IEXcnC2mLSGWI91dnvdIbg/viewform?usp=dialog",
+      desc: "Construit les maps et les différents décors Minecraft utilisés dans les vidéos." },
+    { role: "Scénariste", open: true,
+      form: "https://docs.google.com/forms/d/e/1FAIpQLScIoq_ypXfWgS5WwsHzu8QuqUqoCaKTNOimC810rZbeMWjjig/viewform?usp=dialog",
+      desc: "Écrit les histoires, événements et dialogues qui composent les ARG." },
+    { role: "3D Maker", open: true,
+      form: "https://docs.google.com/forms/d/e/1FAIpQLSfniTbzJbetfmRL2LAgW2Eq5ePPnKJt0KaNf_7hUUa_ZPst6w/viewform?usp=publish-editor",
+      desc: "Modélise les créatures, objets et autres éléments 3D nécessaires aux projets." },
+    { role: "Creative Strategist", open: true,
+      form: "https://docs.google.com/forms/d/e/1FAIpQLSfQ6MiZHJhfCACxTZJFtfgI82Zn41sjqjsq86p9OUanuetpOQ/viewform?usp=publish-editor",
+      desc: "Recherche et analyse des idées de vidéos à fort potentiel pour proposer de nouveaux concepts à la chaîne." },
+  ],
+
+  // Texte pré-rempli dans le mail de candidature.
+  mail: "Salut YKUD,\n\nPoste : {poste}\nQui je suis :\nMes exemples (2 ou 3 liens) :\n",
+};
+/* ===================== FIN DU CONTENU ===================== */
+
+const h1 = document.getElementById("title");
+DATA.titre.split("*").forEach((part, i) => {
+  if (!part) return;
+  if (i % 2) { const em = document.createElement("em"); em.textContent = part; h1.append(em); }
+  else h1.append(part);
+});
+
+// Petits clics quand on ouvre ou ferme un rôle (muets si le son est coupé).
+const menuOpenSfx = document.getElementById("menu");
+const menuCloseSfx = document.getElementById("menu-close");
+const MENU_VOLUME = 0.2;
+function playMenuSfx(opening) {
+  if (!playing) return;
+  const a = opening ? menuOpenSfx : menuCloseSfx;
+  a.currentTime = 0;
+  a.volume = MENU_VOLUME;
+  a.play().catch(() => {});
+}
+
+const list = document.getElementById("jobs");
+function el(tag, cls, text) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text != null) n.textContent = text;
+  return n;
+}
+for (const { role, desc, open, form } of DATA.jobs) {
+  const li = el("li");
+  const d = el("details", open ? null : "closed");
+  const s = el("summary");
+  s.append(el("span", "name", role), el("span", "toggle"));
+  const body = el("div", "body");
+  body.append(el("p", "desc", desc));
+  if (open) {
+    const go = el("a", "go", "POSTULER");
+    if (form) {
+      go.href = form;               // ouvre le formulaire dans un nouvel onglet, la musique continue
+      go.target = "_blank";
+      go.rel = "noopener";
+    } else {
+      go.href = "mailto:" + DATA.email
+        + "?subject=" + encodeURIComponent("Candidature - " + role)
+        + "&body=" + encodeURIComponent(DATA.mail.replace("{poste}", role));
+    }
+    body.append(go);
+  } else {
+    body.append(el("span", "go", "POURVU"));
+  }
+  d.append(s, body);
+  d.addEventListener("toggle", () => playMenuSfx(d.open));
+  li.append(d);
+  list.append(li);
+}
+
+document.getElementById("yt").href = DATA.youtube;
+const mail = document.getElementById("mail");
+// Ouvre directement une fenêtre de rédaction Gmail adressée à YKUD, dans un nouvel onglet.
+mail.href = "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(DATA.email);
+mail.target = "_blank";
+mail.rel = "noopener";
+mail.textContent = DATA.email.toUpperCase();
+
+// Musique de fond : elle démarre à la fin du chargement de l'écran d'entrée.
+const MUSIC_VOLUME = 0.35;
+const music = document.getElementById("music");
+const soundBtn = document.getElementById("sound");
+let fadeTimer = null;
+let playing = false;
+
+function setLabel(on) {
+  soundBtn.textContent = on ? "SON : ON" : "SON : OFF";
+  soundBtn.setAttribute("aria-pressed", on ? "true" : "false");
+}
+function fadeTo(target, ms, done) {
+  clearInterval(fadeTimer);
+  const start = music.volume, steps = 30, step = (target - start) / steps;
+  let i = 0;
+  fadeTimer = setInterval(() => {
+    i++;
+    music.volume = Math.min(1, Math.max(0, start + step * i));
+    if (i >= steps) { clearInterval(fadeTimer); if (done) done(); }
+  }, ms / steps);
+}
+function startMusic(fadeMs = 2000) {
+  if (playing) return Promise.resolve();
+  playing = true;
+  music.volume = 0;
+  music.muted = false;
+  const p = music.paused ? music.play() : Promise.resolve();
+  return p.then(
+    () => { setLabel(true); fadeTo(MUSIC_VOLUME, fadeMs); },
+    (err) => { playing = false; setLabel(false); throw err; }
+  );
+}
+// Les navigateurs n'autorisent le son qu'au moment d'un clic.
+// On lance donc la piste en muet au clic, pour pouvoir l'activer plus tard.
+function unlockMusic() {
+  music.muted = true;
+  music.play().catch(() => {});
+}
+function stopMusic() {
+  playing = false;
+  setLabel(false);
+  fadeTo(0, 400, () => { if (!playing) music.pause(); });
+}
+soundBtn.addEventListener("click", () => {
+  if (playing) stopMusic();
+  else startMusic().catch(() => {});
+});
+
+// Compteur façon caméscope : il part de zéro à l'entrée sur le site.
+const clock = document.getElementById("clock");
+let t0 = Date.now();
+const pad = (n) => String(n).padStart(2, "0");
+setInterval(() => {
+  const s = Math.floor((Date.now() - t0) / 1000);
+  clock.textContent = pad(Math.floor(s / 3600)) + ":" + pad(Math.floor(s / 60) % 60) + ":" + pad(s % 60);
+}, 1000);
+
+// Écran d'entrée : un clic ou une touche affiche un faux chargement,
+// lance la musique à 100 %, puis ouvre le site.
+const splash = document.getElementById("splash");
+const press = document.getElementById("press");
+const loading = document.getElementById("loading");
+const lt = document.getElementById("lt");
+const fill = document.getElementById("fill");
+const pct = document.getElementById("pct");
+document.body.classList.add("locked");
+splash.focus();
+
+// Bruitage du chargement : un grésillement continu qui « tique » toutes les 55 ms.
+// La barre avance d'un cran à chaque tic et atteint 100 % vers 3 secondes.
+const sfx = document.getElementById("sfx");
+const clickSfx = document.getElementById("click");  // clic joué quand la barre apparaît
+const CLICK_VOLUME = 0.6;
+const openSfx = document.getElementById("open");    // son joué à 100 %, au début de la transition
+const OPEN_VOLUME = 0.7;
+const SFX_VOLUME = 0.5;
+const PULSE = 0.055;   // durée d'un tic du son, en secondes
+const TICKS = 54;      // nombre de crans jusqu'à 100 %
+// [seconde du bruitage, pourcentage]
+const STEPS = Array.from({ length: TICKS }, (_, k) => [0.03 + k * PULSE, Math.round(100 * (k + 1) / TICKS)]);
+let entering = false;
+
+function setProgress(v) { fill.style.width = v + "%"; pct.textContent = v + "%"; }
+
+function fadeOutSfx() {
+  let v = sfx.volume;
+  const timer = setInterval(() => {
+    v = Math.max(0, v - SFX_VOLUME / 8);
+    sfx.volume = v;
+    if (v <= 0) { clearInterval(timer); sfx.pause(); }
+  }, 25);
+}
+
+function enter() {
+  if (entering) return;
+  entering = true;
+  document.removeEventListener("keydown", enter);
+  unlockMusic();
+
+  let sfxOk = true;
+  sfx.currentTime = 0;
+  sfx.volume = SFX_VOLUME;
+  sfx.play().catch(() => { sfxOk = false; });
+
+  press.hidden = true;
+  loading.hidden = false;
+  clickSfx.currentTime = 0;
+  clickSfx.volume = CLICK_VOLUME;
+  clickSfx.play().catch(() => {});
+  openSfx.muted = true;
+  openSfx.play().then(() => { openSfx.pause(); openSfx.currentTime = 0; openSfx.muted = false; }).catch(() => {});
+  zapSfx.muted = true;
+  zapSfx.play().then(() => zapSfx.pause()).catch(() => {});
+  for (const a of [menuOpenSfx, menuCloseSfx]) {
+    a.muted = true;
+    a.play().then(() => { a.pause(); a.muted = false; }).catch(() => {});
+  }
+  splash.classList.add("busy");
+  lt.textContent = "CONNECTING   ";
+  setProgress(0);
+
+  let dots = 0;
+  const dotTimer = setInterval(() => {
+    dots = (dots + 1) % 4;
+    lt.textContent = "CONNECTING" + ".".repeat(dots).padEnd(3, " ");
+  }, 280);
+
+  // On suit la position réelle du son. S'il ne démarre pas, on suit l'horloge.
+  const clickedAt = performance.now();
+  let i = 0;
+  function tick() {
+    const wall = (performance.now() - clickedAt) / 1000;
+    let t = 0;
+    if (sfxOk && !sfx.paused && sfx.currentTime > 0) t = sfx.currentTime;
+    else if (!sfxOk || wall > 0.8) t = wall;
+    while (i < STEPS.length && STEPS[i][0] <= t) { setProgress(STEPS[i][1]); i++; }
+    if (i < STEPS.length) { requestAnimationFrame(tick); return; }
+
+    clearInterval(dotTimer);
+    lt.textContent = "CONNECTED";
+    lt.classList.add("done");
+    openSfx.currentTime = 0;
+    openSfx.muted = false;
+    openSfx.volume = OPEN_VOLUME;
+    openSfx.play().catch(() => {});
+    fadeOutSfx();
+    music.currentTime = 0;          // la musique part du début
+    startMusic(1000).catch(() => {});
+    setTimeout(openSite, 450);
+  }
+  requestAnimationFrame(tick);
+}
+
+function openSite() {
+  t0 = Date.now();
+  clock.textContent = "00:00:00";
+  document.body.classList.remove("locked");
+  splash.classList.remove("busy");
+  splash.classList.add("off");
+  document.body.classList.add("entering");
+  if (!reduceMotion) scheduleZap(3000 + Math.random() * 5000);
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) splash.hidden = true;
+  else splash.addEventListener("animationend", (e) => {
+    if (e.target === splash && e.animationName === "splash-out") {
+      splash.hidden = true;
+      document.body.classList.remove("entering");
+    }
+  });
+}
+
+splash.addEventListener("click", enter);
+document.addEventListener("keydown", enter);
+
+// Scintillement du titre, calé sur le son électrique.
+// Trois passages du fichier son, chacun avec son motif. Chaque chiffre = 10 ms de son :
+// 0 = silence (le titre s'éteint), 9 = décharge maximale (le titre tremble fort).
+const zapSfx = document.getElementById("zap");
+const ZAP_VOLUME = 0.25;
+const ZAPS = [
+  { nom: "coupure", from: 7.42,   // décharge, coupure nette, puis bourdonnement
+    env: "355667776676644544420000000000000000000000000006656556656555465555655654555466556654520" },
+  { nom: "bégaiement", from: 13.90, // le courant saute une dizaine de fois
+    env: "0006666400066665000666640000000676650006766400066676666766676766676666640006666666650006666400000006676" },
+  { nom: "rallumage", from: 16.86,  // noir, quelques étincelles, puis ça se rallume
+    env: "00001111111110100100010000000010000005465115614444777888877666555666666544444214444444444442" },
+];
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let zapBusy = false;
+let lastZap = -1;
+
+// Délai avant le prochain scintillement : jamais le même rythme.
+function nextZapDelay() {
+  if (Math.random() < 0.2) return 600 + Math.random() * 1400;     // rechute juste après
+  return 4000 + Math.pow(Math.random(), 1.7) * 18000;            // entre 4 et 22 s
+}
+
+function showLevel(lvl) {
+  if (lvl === 0) {
+    h1.style.opacity = "0.12";
+    h1.style.transform = "";
+    h1.style.setProperty("--z", "0px");
+    return;
+  }
+  const jitter = Math.max(0, lvl - 3) * 1.2;
+  h1.style.opacity = String(Math.min(1, 0.35 + lvl * 0.12));
+  h1.style.transform = "translateX(" + ((Math.random() * 2 - 1) * jitter).toFixed(1) + "px)";
+  h1.style.setProperty("--z", (lvl * 0.5).toFixed(1) + "px");
+}
+
+function zap() {
+  zapBusy = true;
+  let pick;
+  do { pick = Math.floor(Math.random() * ZAPS.length); } while (pick === lastZap);
+  lastZap = pick;
+  const { from, env } = ZAPS[pick];
+  const to = from + env.length / 100;
+
+  let soundOk = true;
+  zapSfx.muted = !playing;              // bouton SON sur OFF : le titre scintille sans bruit
+  zapSfx.volume = ZAP_VOLUME;
+  zapSfx.currentTime = from;
+  zapSfx.play().catch(() => { soundOk = false; });
+  const startedAt = performance.now();
+  h1.classList.add("zap-on");
+
+  function frame() {
+    const wall = from + (performance.now() - startedAt) / 1000;
+    const t = soundOk && !zapSfx.paused ? zapSfx.currentTime : wall;
+    const k = Math.floor((t - from) * 100);
+    if (k >= env.length || wall > to + 1) return end();
+    showLevel(Number(env[Math.max(0, k)]));
+    requestAnimationFrame(frame);
+  }
+  function end() {
+    zapSfx.pause();
+    h1.classList.remove("zap-on");
+    h1.style.opacity = "";
+    h1.style.transform = "";
+    h1.style.removeProperty("--z");
+    zapBusy = false;
+    scheduleZap(nextZapDelay());
+  }
+  requestAnimationFrame(frame);
+}
+
+function scheduleZap(delay) {
+  setTimeout(() => {
+    if (zapBusy) return;
+    if (document.hidden) return scheduleZap(2000 + Math.random() * 4000);
+    zap();
+  }, delay);
+}
+</script>
+</body>
+</html>
